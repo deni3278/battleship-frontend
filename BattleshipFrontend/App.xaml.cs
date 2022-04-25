@@ -40,7 +40,7 @@ namespace BattleshipFrontend
             containerRegistry.RegisterSingleton<DatabaseService>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SplashPage, SplashPageViewModel>();
-            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<DisplayNamePage, DisplayNamePageViewModel>();
         }
     }
 }

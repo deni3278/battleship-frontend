@@ -3,11 +3,11 @@ using Prism.Navigation;
 
 namespace BattleshipFrontend.ViewModels
 {
-    public class LoginPageViewModel : BindableBase
+    public class DisplayNamePageViewModel : BindableBase
     {
         private readonly INavigationService _navigationService;
 
-        public LoginPageViewModel(INavigationService navigationService)
+        public DisplayNamePageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
         }

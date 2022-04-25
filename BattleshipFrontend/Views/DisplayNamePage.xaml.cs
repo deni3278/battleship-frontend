@@ -3,9 +3,9 @@ using Xamarin.Forms.Xaml;
 namespace BattleshipFrontend.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage
+    public partial class DisplayNamePage
     {
-        public LoginPage()
+        public DisplayNamePage()
         {
             InitializeComponent();
         }

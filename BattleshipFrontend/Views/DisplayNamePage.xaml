@@ -4,8 +4,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:BattleshipFrontend.ViewModels;assembly=BattleshipFrontend"
-             x:Class="BattleshipFrontend.Views.LoginPage"
-             x:DataType="viewModels:LoginPageViewModel">
+             x:Class="BattleshipFrontend.Views.DisplayNamePage"
+             x:DataType="viewModels:DisplayNamePageViewModel">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Not implemented yet."

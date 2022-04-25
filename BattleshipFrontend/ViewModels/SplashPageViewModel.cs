@@ -60,7 +60,7 @@ namespace BattleshipFrontend.ViewModels
 
                 App.HubConnection.Closed += OnClosedAsync;
 
-                await _navigationService.NavigateAsync("/LoginPage");
+                await _navigationService.NavigateAsync("/DisplayNamePage");
             }
             catch
             {
