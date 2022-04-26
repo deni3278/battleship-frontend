@@ -3,6 +3,7 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:viewModels="clr-namespace:BattleshipFrontend.ViewModels;assembly=BattleshipFrontend"
              x:Class="BattleshipFrontend.Views.MenuPage"
@@ -59,7 +60,8 @@
                             Text="Join Room"
                             HorizontalOptions="Center" />
 
-                    <Button Text="Create Room"
+                    <Button Command="{prism:NavigateTo 'CreateRoomPage'}"
+                            Text="Create Room"
                             HorizontalOptions="Center" />
                     
                     <BoxView HorizontalOptions="FillAndExpand" />
