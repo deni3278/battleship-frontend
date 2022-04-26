@@ -3,14 +3,71 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:viewModels="clr-namespace:BattleshipFrontend.ViewModels;assembly=BattleshipFrontend"
              x:Class="BattleshipFrontend.Views.MenuPage"
              x:DataType="viewModels:MenuPageViewModel">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Not implemented yet."
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Padding="0, 4"
+              RowSpacing="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="8*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <yummy:PancakeView BackgroundGradientStartPoint="0,0"
+                               BackgroundGradientEndPoint="1,0"
+                               CornerRadius="10"
+                               Grid.Row="0"
+                               Grid.Column="1">
+                <yummy:PancakeView.Border>
+                    <yummy:Border GradientStartPoint="0,0"
+                                  GradientEndPoint="1,0"
+                                  Thickness="8">
+                        <yummy:Border.GradientStops>
+                            <yummy:GradientStop Color="AquaMarine" Offset="0" />
+                            <yummy:GradientStop Color="MediumPurple" Offset="0.5" />
+                            <yummy:GradientStop Color="Violet" Offset="1" />
+                        </yummy:Border.GradientStops>
+                    </yummy:Border>
+                </yummy:PancakeView.Border>
+                
+                <yummy:PancakeView.BackgroundGradientStops>
+                    <yummy:GradientStopCollection>
+                        <yummy:GradientStop Color="Violet" Offset="0" />
+                        <yummy:GradientStop Color="MediumPurple" Offset="0.5" />
+                        <yummy:GradientStop Color="Aquamarine" Offset="1" />
+                    </yummy:GradientStopCollection>
+                </yummy:PancakeView.BackgroundGradientStops>
+
+                <ListView SelectedItem="{Binding SelectedRoom}" />
+            </yummy:PancakeView>
+
+            <yummy:PancakeView BackgroundColor="LightBlue"
+                               CornerRadius="10"
+                               Grid.Row="1"
+                               Grid.Column="1">
+                <StackLayout Orientation="Horizontal"
+                             Padding="8, 0">
+                    <Button Command="{Binding JoinCommand}"
+                            Text="Join Room"
+                            HorizontalOptions="Center" />
+
+                    <Button Text="Create Room"
+                            HorizontalOptions="Center" />
+                    
+                    <BoxView HorizontalOptions="FillAndExpand" />
+
+                    <Button Text="Refresh"
+                            HorizontalOptions="Center" />
+                </StackLayout>
+            </yummy:PancakeView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
