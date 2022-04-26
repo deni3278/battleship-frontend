@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using BattleshipFrontend.Models;
@@ -24,11 +25,30 @@ namespace BattleshipFrontend.Services
 
         public async Task InitializeTablesAsync()
         {
+            Debug.WriteLine("\nInitializing database.");
+            
             await _connection.CreateTableAsync<User>();
 
             var rows = await _connection.Table<User>().CountAsync();
 
             if (rows == 0) await _connection.InsertAsync(new User { DisplayName = string.Empty });
+        }
+
+        public async Task<string> GetDisplayNameAsync()
+        {
+            Debug.WriteLine("\nRetrieving display name from database.");
+            
+            return (await _connection.Table<User>().FirstAsync()).DisplayName;
+        }
+
+        public async Task<bool> SetDisplayNameAsync(string displayName)
+        {
+            Debug.WriteLine("\nUpdating display name in database.");
+            
+            var user = await _connection.Table<User>().FirstAsync();
+            user.DisplayName = displayName;
+
+            return await _connection.UpdateAsync(user) > 0;
         }
     }
 }

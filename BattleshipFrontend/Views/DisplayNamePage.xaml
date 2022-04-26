@@ -3,14 +3,41 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
              xmlns:viewModels="clr-namespace:BattleshipFrontend.ViewModels;assembly=BattleshipFrontend"
              x:Class="BattleshipFrontend.Views.DisplayNamePage"
              x:DataType="viewModels:DisplayNamePageViewModel">
+    <ContentPage.Behaviors>
+        <prism:EventToCommandBehavior EventName="Appearing"
+                                      Command="{Binding AppearingCommand}" />
+    </ContentPage.Behaviors>
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Not implemented yet."
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            
+            <Entry Text="{Binding DisplayName}"
+                   Placeholder="Enter a display name..."
+                   IsEnabled="{Binding IsDisplayNameEnabled}"
+                   Grid.Row="1"
+                   Grid.Column="1" />
+            
+            <Button Command="{Binding ConfirmCommand}"
+                    Text="Confirm"
+                    IsEnabled="{Binding IsConfirmEnabled}"
+                    Grid.Row="2"
+                    Grid.Column="1" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

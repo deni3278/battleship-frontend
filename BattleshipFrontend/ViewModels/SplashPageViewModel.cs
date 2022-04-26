@@ -43,8 +43,6 @@ namespace BattleshipFrontend.ViewModels
 
         private async void OnAppearingAsync()
         {
-            Debug.WriteLine("\nInitializing database.");
-
             IsRetryVisible = false;
             Message = "Initializing...";
             
