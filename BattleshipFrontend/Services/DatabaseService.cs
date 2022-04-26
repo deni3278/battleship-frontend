@@ -25,27 +25,27 @@ namespace BattleshipFrontend.Services
 
         public async Task InitializeTablesAsync()
         {
-            Debug.WriteLine("\nInitializing database.");
+            Debug.WriteLine("Initializing database.");
             
-            await _connection.CreateTableAsync<User>();
+            await _connection.CreateTableAsync<Self>();
 
-            var rows = await _connection.Table<User>().CountAsync();
+            var rows = await _connection.Table<Self>().CountAsync();
 
-            if (rows == 0) await _connection.InsertAsync(new User { DisplayName = string.Empty });
+            if (rows == 0) await _connection.InsertAsync(new Self { DisplayName = string.Empty });
         }
 
         public async Task<string> GetDisplayNameAsync()
         {
-            Debug.WriteLine("\nRetrieving display name from database.");
+            Debug.WriteLine("Retrieving display name from database.");
             
-            return (await _connection.Table<User>().FirstAsync()).DisplayName;
+            return (await _connection.Table<Self>().FirstAsync()).DisplayName;
         }
 
         public async Task<bool> SetDisplayNameAsync(string displayName)
         {
-            Debug.WriteLine("\nUpdating display name in database.");
+            Debug.WriteLine("Updating display name in database.");
             
-            var user = await _connection.Table<User>().FirstAsync();
+            var user = await _connection.Table<Self>().FirstAsync();
             user.DisplayName = displayName;
 
             return await _connection.UpdateAsync(user) > 0;

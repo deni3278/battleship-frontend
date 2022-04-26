@@ -52,7 +52,7 @@ namespace BattleshipFrontend.ViewModels
 
             try
             {
-                Debug.WriteLine("\nEstablishing server connection.");
+                Debug.WriteLine("Establishing server connection.");
 
                 await App.HubConnection.StartAsync(tokenSource.Token);
 
@@ -78,7 +78,7 @@ namespace BattleshipFrontend.ViewModels
 
         private Task OnClosedAsync(Exception exception = null)
         {
-            Debug.WriteLine("\nRestarting application.");
+            Debug.WriteLine("Restarting application.");
             
             App.HubConnection.Closed -= OnClosedAsync;
 

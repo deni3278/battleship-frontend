@@ -32,9 +32,9 @@
                     Grid.Row="2"
                     Grid.Column="1" />
             
-            <Label IsVisible="False"
-                   Text="Room name is already being used."
+            <Label Text="Room name is already being used."
                    TextColor="Red"
+                   IsVisible="{Binding IsErrorVisible}"
                    Grid.Row="3"
                    Grid.Column="1" />
         </Grid>

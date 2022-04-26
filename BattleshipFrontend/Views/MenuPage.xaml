@@ -6,8 +6,14 @@
              xmlns:prism="http://prismlibrary.com"
              xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:viewModels="clr-namespace:BattleshipFrontend.ViewModels;assembly=BattleshipFrontend"
+             xmlns:models="clr-namespace:BattleshipFrontend.Models;assembly=BattleshipFrontend"
              x:Class="BattleshipFrontend.Views.MenuPage"
              x:DataType="viewModels:MenuPageViewModel">
+    <ContentPage.Behaviors>
+        <prism:EventToCommandBehavior EventName="Appearing"
+                                      Command="{Binding RefreshCommand}" />
+    </ContentPage.Behaviors>
+    
     <ContentPage.Content>
         <Grid Padding="0, 4"
               RowSpacing="4">
@@ -47,7 +53,22 @@
                     </yummy:GradientStopCollection>
                 </yummy:PancakeView.BackgroundGradientStops>
 
-                <ListView SelectedItem="{Binding SelectedRoom}" />
+                <ListView ItemsSource="{Binding Rooms}"
+                          SelectedItem="{Binding SelectedRoom}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout x:DataType="models:Room"
+                                                 Padding="8, 0"
+                                                 VerticalOptions="Center">
+                                        <Label Text="{Binding Name}" />
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </yummy:PancakeView>
 
             <yummy:PancakeView BackgroundColor="LightBlue"
@@ -66,7 +87,8 @@
                     
                     <BoxView HorizontalOptions="FillAndExpand" />
 
-                    <Button Text="Refresh"
+                    <Button Command="{Binding RefreshCommand}"
+                            Text="Refresh"
                             HorizontalOptions="Center" />
                 </StackLayout>
             </yummy:PancakeView>

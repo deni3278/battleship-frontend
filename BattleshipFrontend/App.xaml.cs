@@ -43,6 +43,7 @@ namespace BattleshipFrontend
             containerRegistry.RegisterForNavigation<DisplayNamePage, DisplayNamePageViewModel>();
             containerRegistry.RegisterForNavigation<MenuPage, MenuPageViewModel>();
             containerRegistry.RegisterForNavigation<CreateRoomPage, CreateRoomPageViewModel>();
+            containerRegistry.RegisterForNavigation<RoomPage, RoomPageViewModel>();
         }
     }
 }
