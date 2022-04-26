@@ -1,4 +1,5 @@
 using BattleshipFrontend.Services;
+using Microsoft.AspNetCore.SignalR.Client;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -60,6 +61,7 @@ namespace BattleshipFrontend.ViewModels
             IsConfirmEnabled = false;
             
             await _databaseService.SetDisplayNameAsync(DisplayName);
+            await App.HubConnection.InvokeAsync("SetDisplayName", DisplayName);
             await _navigationService.NavigateAsync("/MenuPage");
         }
     }
