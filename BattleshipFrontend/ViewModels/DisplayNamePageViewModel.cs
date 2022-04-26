@@ -56,6 +56,9 @@ namespace BattleshipFrontend.ViewModels
 
         private async void OnConfirmAsync()
         {
+            IsDisplayNameEnabled = false;
+            IsConfirmEnabled = false;
+            
             await _databaseService.SetDisplayNameAsync(DisplayName);
             await _navigationService.NavigateAsync("/MenuPage");
         }

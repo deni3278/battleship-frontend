@@ -1,0 +1,42 @@
+<?xml version="1.0"
+      encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:BattleshipFrontend.ViewModels;assembly=BattleshipFrontend"
+             x:Class="BattleshipFrontend.Views.CreateRoomPage"
+             x:DataType="viewModels:CreateRoomPageViewModel">
+    <ContentPage.Content><Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            
+            <Entry Text="{Binding RoomName}"
+                   Placeholder="Enter a room name..."
+                   IsEnabled="{Binding IsRoomNameEnabled}"
+                   Grid.Row="1"
+                   Grid.Column="1" />
+            
+            <Button Command="{Binding CreateCommand}"
+                    Text="Confirm"
+                    IsEnabled="{Binding IsCreateEnabled}"
+                    Grid.Row="2"
+                    Grid.Column="1" />
+            
+            <Label IsVisible="False"
+                   Text="Room name is already being used."
+                   TextColor="Red"
+                   Grid.Row="3"
+                   Grid.Column="1" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
