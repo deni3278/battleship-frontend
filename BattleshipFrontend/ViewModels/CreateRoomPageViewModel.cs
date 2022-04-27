@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using BattleshipFrontend.Models;
+using Microsoft.AspNetCore.SignalR.Client;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -48,12 +50,25 @@ namespace BattleshipFrontend.ViewModels
 
             IsRoomNameEnabled = false;
             IsCreateEnabled = false;
-            
-            // TODO: Attempt to create a room.
+
+            var room = await App.HubConnection.InvokeAsync<Room?>("CreateRoom", RoomName);
+
+            if (room == null)
+            {
+                IsErrorVisible = true;
+            }
+            else
+            {
+                Debug.WriteLine("Created room with name '" + RoomName + "'.");
+
+                await _navigationService.NavigateAsync("RoomPage", new NavigationParameters
+                {
+                    { "room", room }
+                });
+            }
 
             IsRoomNameEnabled = true;
             IsCreateEnabled = true;
-            IsErrorVisible = true;
         }
     }
 }

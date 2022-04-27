@@ -2,8 +2,8 @@ namespace BattleshipFrontend.Models
 {
     public class User
     {
-        public string ConnectionId { get; set; }
-        public string DisplayName { get; set; }
+        public string ConnectionId { get; set; } = null!;
+        public string DisplayName { get; set; } = null!;
         public Room? Room { get; set; }
     }
 }

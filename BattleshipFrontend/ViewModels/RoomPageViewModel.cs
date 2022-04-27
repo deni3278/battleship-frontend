@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using BattleshipFrontend.Models;
+using Microsoft.AspNetCore.SignalR.Client;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -41,14 +43,40 @@ namespace BattleshipFrontend.ViewModels
             Debug.WriteLine("Ready.");
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters)
+        private void OnRefresh(Room room)
         {
-            // TODO: Notify.
+            Debug.WriteLine("Refresh room.");
+            
+            Owner = room.Owner.DisplayName;
+            Opponent = room.Opponent?.DisplayName ?? string.Empty;
+        }
+
+        private async void OnOwnerLeft()
+        {
+            Debug.WriteLine("Owner left room.");
+            
+            await _dialogService.DisplayAlertAsync("", "Room owner has left.", "Ok");
+            await _navigationService.GoBackAsync();
+        }
+
+        public async void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            Debug.WriteLine("Leaving room.");
+
+            await App.HubConnection.InvokeAsync("LeaveRoom");
+            
+            App.HubConnection.Remove("Refresh");
+            App.HubConnection.Remove("OwnerLeft");
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            // TODO: Set relevant properties and register handlers.
+            App.HubConnection.On<Room>("Refresh", OnRefresh);
+            App.HubConnection.On("OwnerLeft", OnOwnerLeft);
+            
+            var room = (Room)parameters["room"];
+            
+            OnRefresh(room);
         }
     }
 }

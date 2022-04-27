@@ -42,11 +42,25 @@ namespace BattleshipFrontend.ViewModels
             RefreshCommand = new DelegateCommand(OnRefreshAsync);
         }
 
-        private void OnJoinAsync()
+        private async void OnJoinAsync()
         {
             Debug.WriteLine("Joining room with name '" + SelectedRoom!.Name + "'.");
-            
-            // TODO: Attempt to join the room.
+
+            var room = await App.HubConnection.InvokeAsync<Room?>("JoinRoom", SelectedRoom.Name);
+
+            if (room == null)
+            {
+                RefreshCommand.Execute();
+                
+                await _dialogService.DisplayAlertAsync("", "That room doesn't exist anymore.", "Ok");
+            }
+            else
+            {
+                await _navigationService.NavigateAsync("RoomPage", new NavigationParameters
+                {
+                    { "room", room }
+                });
+            }
         }
 
         private async void OnRefreshAsync()
