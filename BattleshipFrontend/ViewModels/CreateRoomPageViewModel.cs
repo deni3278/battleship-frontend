@@ -1,6 +1,4 @@
 using System.Diagnostics;
-using BattleshipFrontend.Models;
-using Microsoft.AspNetCore.SignalR.Client;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -10,7 +8,7 @@ namespace BattleshipFrontend.ViewModels
     public class CreateRoomPageViewModel : BindableBase
     {
         private readonly INavigationService _navigationService;
-        
+
         private bool _isRoomNameEnabled = true;
         private bool _isCreateEnabled = true;
         private bool _isErrorVisible;
@@ -20,13 +18,13 @@ namespace BattleshipFrontend.ViewModels
         public bool IsRoomNameEnabled
         {
             get => _isRoomNameEnabled;
-            set => _isRoomNameEnabled = value;
+            set => SetProperty(ref _isRoomNameEnabled, value);
         }
 
         public bool IsCreateEnabled
         {
             get => _isCreateEnabled;
-            set => _isCreateEnabled = value;
+            set => SetProperty(ref _isCreateEnabled, value);
         }
 
         public bool IsErrorVisible
@@ -40,31 +38,19 @@ namespace BattleshipFrontend.ViewModels
         public CreateRoomPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            
+
             CreateCommand = new DelegateCommand(OnCreateAsync);
         }
 
         private async void OnCreateAsync()
         {
             Debug.WriteLine("Attempting to create a room.");
-            
+
             IsRoomNameEnabled = false;
             IsCreateEnabled = false;
-
-            var room = await App.HubConnection.InvokeAsync<Room?>("CreateRoom", RoomName);
-
-            if (room != null)
-            {
-                Debug.WriteLine("Created a room with name '" + RoomName + "'.");
-
-                await _navigationService.NavigateAsync("RoomPage", new NavigationParameters
-                {
-                    {"room", room}
-                });
-                
-                return;
-            }
             
+            // TODO: Attempt to create a room.
+
             IsRoomNameEnabled = true;
             IsCreateEnabled = true;
             IsErrorVisible = true;

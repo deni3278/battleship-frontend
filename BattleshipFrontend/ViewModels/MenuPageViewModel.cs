@@ -3,11 +3,16 @@ using System.Diagnostics;
 using BattleshipFrontend.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 using Prism.Commands;
+using Prism.Navigation;
+using Prism.Services;
 
 namespace BattleshipFrontend.ViewModels
 {
     public class MenuPageViewModel
     {
+        private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
+
         private Room? _selectedRoom;
 
         public ObservableCollection<Room> Rooms { get; }
@@ -19,7 +24,7 @@ namespace BattleshipFrontend.ViewModels
             {
                 _selectedRoom = value;
                 JoinCommand.RaiseCanExecuteChanged();
-                
+
                 Debug.WriteLine("Selected room with name '" + value?.Name + "'.");
             }
         }
@@ -27,8 +32,11 @@ namespace BattleshipFrontend.ViewModels
         public DelegateCommand JoinCommand { get; }
         public DelegateCommand RefreshCommand { get; }
 
-        public MenuPageViewModel()
+        public MenuPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
         {
+            _navigationService = navigationService;
+            _dialogService = dialogService;
+
             Rooms = new ObservableCollection<Room>();
             JoinCommand = new DelegateCommand(OnJoinAsync, () => SelectedRoom != null);
             RefreshCommand = new DelegateCommand(OnRefreshAsync);
@@ -36,18 +44,19 @@ namespace BattleshipFrontend.ViewModels
 
         private void OnJoinAsync()
         {
-            Debug.WriteLine("Joining game.");
+            Debug.WriteLine("Joining room with name '" + SelectedRoom!.Name + "'.");
+            
+            // TODO: Attempt to join the room.
         }
 
         private async void OnRefreshAsync()
         {
-            
             Debug.WriteLine("Refreshing list of rooms.");
-            
+
             Rooms.Clear();
-            
+
             var rooms = await App.HubConnection.InvokeAsync<Room[]>("GetRooms");
-            
+
             foreach (var room in rooms)
             {
                 Rooms.Add(room);

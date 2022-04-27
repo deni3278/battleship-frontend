@@ -1,21 +1,54 @@
-using BattleshipFrontend.Models;
-using Microsoft.AspNetCore.SignalR.Client;
+using System.Diagnostics;
+using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 
 namespace BattleshipFrontend.ViewModels
 {
-    public class RoomPageViewModel : INavigationAware
+    public class RoomPageViewModel : BindableBase, INavigationAware
     {
-        private Room _room;
+        private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _dialogService;
         
-        public async void OnNavigatedFrom(INavigationParameters parameters)
+        private string _owner = string.Empty;
+        private string _opponent = string.Empty;
+
+        public string Owner
         {
-            await App.HubConnection.InvokeAsync("LeaveRoom");
+            get => _owner;
+            set => SetProperty(ref _owner, value);
+        }
+
+        public string Opponent
+        {
+            get => _opponent;
+            set => SetProperty(ref _opponent, value);
+        }
+
+        public DelegateCommand ReadyCommand { get; }
+
+        public RoomPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        {
+            _navigationService = navigationService;
+            _dialogService = dialogService;
+
+            ReadyCommand = new DelegateCommand(OnReady);
+        }
+
+        private void OnReady()
+        {
+            Debug.WriteLine("Ready.");
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            // TODO: Notify.
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            _room = (Room)parameters["room"];
+            // TODO: Set relevant properties and register handlers.
         }
     }
 }
