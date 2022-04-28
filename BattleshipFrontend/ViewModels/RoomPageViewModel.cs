@@ -15,6 +15,8 @@ namespace BattleshipFrontend.ViewModels
         
         private string _owner = string.Empty;
         private string _opponent = string.Empty;
+        private string _readyText = "Ready";
+        private bool isReady = false;
 
         public string Owner
         {
@@ -28,6 +30,12 @@ namespace BattleshipFrontend.ViewModels
             set => SetProperty(ref _opponent, value);
         }
 
+        public string ReadyText
+        {
+            get => _readyText;
+            set => SetProperty(ref _readyText, value);
+        }
+
         public DelegateCommand ReadyCommand { get; }
 
         public RoomPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
@@ -38,17 +46,50 @@ namespace BattleshipFrontend.ViewModels
             ReadyCommand = new DelegateCommand(OnReady);
         }
 
-        private void OnReady()
+        private async void OnReady()
         {
-            Debug.WriteLine("Ready.");
+            if (!isReady)
+            {
+                Debug.WriteLine("Ready.");
+                
+                await App.HubConnection.InvokeAsync("Ready");
+
+                isReady = true;
+                ReadyText = "Unready";
+            }
+            else
+            {
+                Debug.WriteLine("Unready.");
+                
+                await App.HubConnection.InvokeAsync("Unready");
+
+                isReady = false;
+                ReadyText = "Ready";
+            }
         }
 
-        private void OnRefresh(Room room)
+        private async void OnStart()
+        {
+            Debug.WriteLine("Starting.");
+
+            await _navigationService.NavigateAsync("/PreparationPage");
+        }
+
+        private async void OnRefresh(Room room)
         {
             Debug.WriteLine("Refresh room.");
             
             Owner = room.Owner.DisplayName;
             Opponent = room.Opponent?.DisplayName ?? string.Empty;
+
+            if (room.Opponent != null) return;
+            
+            Debug.WriteLine("Unready.");
+                
+            await App.HubConnection.InvokeAsync("Unready");
+
+            isReady = false;
+            ReadyText = "Ready";
         }
 
         private async void OnOwnerLeft()
@@ -67,12 +108,14 @@ namespace BattleshipFrontend.ViewModels
             
             App.HubConnection.Remove("Refresh");
             App.HubConnection.Remove("OwnerLeft");
+            App.HubConnection.Remove("Start");
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             App.HubConnection.On<Room>("Refresh", OnRefresh);
             App.HubConnection.On("OwnerLeft", OnOwnerLeft);
+            App.HubConnection.On("Start", OnStart);
             
             var room = (Room)parameters["room"];
             
